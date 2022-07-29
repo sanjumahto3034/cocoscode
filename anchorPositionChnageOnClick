@@ -1,7 +1,8 @@
 // --------------------------------- > Set Anchor Point on Button Click Event on particular point ..
 //
        
-       touchPos = rotateImageWithAnchor.getTouchBeganPosition();
+       
+        touchPos = rotateImageWithAnchor.getTouchBeganPosition();
 
         if (touchPos.x > midX && touchPos.y > midY) {
           temp = touchPos.x - midX;
@@ -14,6 +15,15 @@
           minY = minY - temp;
           maxY = maxY - temp;
 
+          if (ancX > 1) {
+            ancX = 1;
+          }
+          if (ancY > 1) {
+            ancY = 1;
+          } 
+            
+          console.log(ancX, ancY);
+          
           rotateImageWithAnchor.setAnchorPoint(ancX, ancY);
         } else {
           temp = (touchPos.x - minX) * 1;
@@ -28,5 +38,14 @@
           minY = minY + temp;
           maxY = maxY + temp;
 
+           if (ancX > 1) {
+            ancX = 1;
+          }
+          if (ancY > 1) {
+            ancY = 1;
+          }
+
+          console.log(ancX,ancY);
           rotateImageWithAnchor.setAnchorPoint(ancX, ancY);
         }
+
