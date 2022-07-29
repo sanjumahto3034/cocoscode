@@ -1,0 +1,17 @@
+    cc.eventManager.addListener({
+event: cc.EventListener.MOUSE,
+onMouseMove: function(event){
+    var target = event.getCurrentTarget();
+    var locationInNode = target.convertToNodeSpace(event.getLocation());
+    
+    var s = target.getContentSize();
+    var rect = cc.rect(0, 0, s.width, s.height);
+
+   
+    if (cc.rectContainsPoint(rect, locationInNode)) {       
+      console.log("mouse hover");
+    } else {
+        console.log("mouse not hover")
+    }
+}
+},#object name)
