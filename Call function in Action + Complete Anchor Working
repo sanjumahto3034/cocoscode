@@ -1,0 +1,23 @@
+ isClicked = false;
+      touchPos = touch.getLocation();
+      var ancX;
+      var ancY;
+      if (
+        touchPos.x < rotateImageWithAnchor.width &&
+        touchPos.y < rotateImageWithAnchor.height
+      ) {
+        ancX = touchPos.x / rotateImageWithAnchor.width;
+        ancY = touchPos.y / rotateImageWithAnchor.height;
+        rotateImageWithAnchor.setAnchorPoint(ancX, ancY);
+        rotateImageWithAnchor.attr({
+          x: touchPos.x,
+          y: touchPos.y,
+        });
+        console.log(rotateImageWithAnchor.getAnchorPoint());
+
+        rotateImageWithAnchor.runAction(cc.sequence(cc.rotateBy(1, 360), cc.callFunc(function () {
+          isClicked = true
+        },this)));
+        
+        
+      }
