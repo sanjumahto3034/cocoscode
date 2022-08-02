@@ -1,0 +1,286 @@
+var self;
+var touchPos;
+var rotateImageWithAnchor;
+var ancX;
+var ancY;
+var minX = 250;
+var minY = 250;
+var maxX = 450;
+var maxY = 450;
+var temp = 0;
+var ancX = 1;
+var ancY = 1;
+var midX = 250;
+var midY = 250;
+var isClicked = true;
+var userInputFieldText;
+var passwordInputFieldText;
+var lastbox = true;
+var k = 0;
+// --------------------------- > You Values Section <--------------
+var timeRemain = 90;
+var rows = 3;
+var columns =2;
+// --------------------------- > You Values Section <--------------
+var lastText;
+var lastCard;
+var scoreLable;
+var finalScore = 0;
+var finalScreenText;
+var finalScreenScore;
+var whenFinalScreenDisplay = (rows * columns) / 2;
+var mins = 0;
+var secs = 0;
+var youLost = false;
+var ScreenBackImage;
+var timeLable;
+var replayBtn;
+var isFlipping = true;
+var flipCardLayerScene = cc.Layer.extend({
+  sprite: null,
+
+  ctor: function () {
+    this._super();
+    var size = cc.winSize;
+    // ---------------->Experimetn Section ----------------------
+
+    // ---------------->Experimetn Section ----------------------
+    var backImage = new cc.Sprite(res.gback);
+    backImage.setScale(2, 1);
+    backImage.attr({
+      x: size.width / 2,
+      y: size.height / 2,
+    });
+    this.addChild(backImage, 1);
+    var size = cc.winSize;
+    ScreenBackImage = new cc.Sprite(res.gback);
+    ScreenBackImage.setOpacity(0);
+    ScreenBackImage.setScale(2, 1);
+    ScreenBackImage.attr({
+      x: size.width / 2,
+      y: size.height / 2,
+    });
+    this.addChild(ScreenBackImage, 11);
+    var lableText = new cc.LabelTTF("Card Game", "robotofont", 85);
+    lableText.attr({
+      x: size.width / 2 - 400,
+      y: size.height / 1.06,
+    });
+    this.addChild(lableText, 2);
+    scoreLable = new cc.LabelTTF("", "robotofont", 85);
+    scoreLable.setString("Score : " + finalScore);
+    scoreLable.attr({
+      x: size.width / 2 + 600,
+      y: size.height / 1.06,
+    });
+    this.addChild(scoreLable, 2);
+    finalScreenText = new cc.LabelTTF("You Win", "robotofont", 200);
+    finalScreenText.setOpacity(0);
+    finalScreenText.attr({
+      x: size.width / 2,
+      y: size.height / 2 + 300,
+    });
+    this.addChild(finalScreenText, 20);
+    finalScreenScore = new cc.LabelTTF("Score : 0", "robotofont", 200);
+    finalScreenScore.setOpacity(0);
+    finalScreenScore.attr({
+      x: size.width / 2,
+      y: size.height / 2 - 100,
+    });
+    this.addChild(finalScreenScore, 20);
+
+    replayBtn = new ccui.Button(res.btnbg);
+    replayBtn.setEnabled(false);
+    replayBtn.setOpacity(0);
+    replayBtn.setTitleText("Replay");
+    replayBtn.setTitleFontSize(300);
+    replayBtn.setTitleFontName("robotofont");
+    replayBtn.setScale(0.2, 0.2);
+    replayBtn.setTitleColor(cc.color(0, 0, 0));
+    replayBtn.addTouchEventListener(this.replayEvent);
+    replayBtn.attr({
+      x: size.width / 2 + 500,
+      y: size.height / 2 - 300,
+    });
+    // this.addChild(replayBtn, 12);
+    // ---------------------> Time Manager <---------------
+    if (timeRemain > 60) {
+      while (timeRemain > 60) {
+        timeRemain = timeRemain - 60;
+        mins++;
+        secs = timeRemain;
+      }
+    } else {
+      secs = timeRemain;
+    }
+
+    timeLable = new cc.LabelTTF("0:0", "robotofont", 55);
+    timeLable.setAnchorPoint(0, 0.5);
+    timeLable.attr({
+      x: 20,
+      y: size.height / 1.06,
+    });
+    this.addChild(timeLable, 2);
+    this.schedule(this.timeRemainFunc, 1);
+
+    // --------------------> Main Function <---------------
+    var totalNumebr = (rows * columns) / 2;
+    var nums = [];
+    var repeatNum = totalNumebr;
+    for (ranLimit = 0; ranLimit < totalNumebr; ranLimit++) {
+      nums[ranLimit] = ranLimit;
+    }
+    for (ranLimit = 0; ranLimit < totalNumebr; ranLimit++) {
+      nums[repeatNum] = ranLimit;
+      repeatNum++;
+    }
+    (ranNums = []), (i = nums.length), (j = 0);
+
+    while (i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      ranNums.push(nums[j]);
+      nums.splice(j, 1);
+    }
+
+    var posX = 0.9;
+    var posY = 0.8;
+    for (var i = 1; i <= columns; i++) {
+      for (var j = 1; j <= rows; j++) {
+        var image1 = new ccui.Button(res.shizukaimg);
+        image1.setTitleColor(cc.color(0, 0, 0));
+        image1.setTitleFontSize(600);
+        image1.setTag("c" + i + "r" + j);
+        image1.addTouchEventListener(this.image1Event);
+        image1.setScale(0.2, 0.2);
+        image1.attr({
+          x: size.width * posX,
+          y: size.height * posY,
+        });
+        this.addChild(image1, 5);
+
+        var image1Text = new cc.LabelTTF(ranNums[k], "robotofont", 600);
+        image1Text.setTag("c" + i + "r" + j + "img");
+        image1Text.setColor(cc.color(0, 0, 0));
+        image1Text.setOpacity(0);
+        image1Text.attr({
+          x: image1.width / 2,
+          y: image1.height / 2,
+        });
+        image1.addChild(image1Text, 7);
+        posX -= 1 / rows;
+        k++;
+      }
+      posY -= 1 / columns;
+      posX = 0.9;
+    }
+ 
+    return true;
+  },
+  image1Event: function (sender, type) {
+    var insideSelf = sender.getParent();
+    switch (type) {
+      case ccui.Widget.TOUCH_BEGAN:
+        if (isFlipping) {
+          var timeChange = 0.4;
+        if (lastbox) {
+          lastbox = false;
+          sender.setEnabled(false);
+          var currentCardText = sender.getChildByTag(sender.getTag() + "img");
+          lastCard = sender;
+          lastText = sender.getChildByTag(sender.getTag() + "img");
+          sender.runAction(
+            cc.sequence(
+              cc.scaleTo(timeChange, 0, 0.25),
+              cc.scaleTo(timeChange, 0.2, 0.25),
+              cc.callFunc(currentCardText.setOpacity(100))
+            )
+          );
+        } else {
+          isFlipping = false;
+          var currentCardText = sender.getChildByTag(sender.getTag() + "img");
+          sender.runAction(
+            cc.sequence(
+              cc.scaleTo(timeChange, 0, 0.25),
+              cc.scaleTo(timeChange, 0.2, 0.25),
+              cc.callFunc(currentCardText.setOpacity(100))
+            )
+          );
+          if (currentCardText.getString() == lastText.getString() || youLost) {
+             isFlipping = true;
+            lastCard.setEnabled(false);
+            sender.setEnabled(false);
+            finalScore++;
+            scoreLable.setString("Score : " + finalScore);
+            if (finalScore == whenFinalScreenDisplay) {
+              setTimeout(function () {
+                ScreenBackImage.setOpacity(200);
+                finalScreenScore.setOpacity(255);
+                finalScreenText.setOpacity(255);
+                finalScreenScore.setString(
+                  "Score : " + finalScore + "/" + whenFinalScreenDisplay
+                );
+                replayBtn.setOpacity(255);
+                replayBtn.setEnabled(true);
+                insideSelf.unschedule(insideSelf.timeRemainFunc);
+              }, 1000);
+             
+            }
+          } else {
+            setTimeout(function () {
+              sender.runAction(
+                cc.sequence(
+                  cc.scaleTo(timeChange, 0, 0.25),
+                  cc.scaleTo(timeChange, 0.2, 0.25),
+                  cc.callFunc(currentCardText.setOpacity(0))
+                )
+              );
+              lastCard.setEnabled(true);
+              lastCard.runAction(
+                cc.sequence(
+                  cc.scaleTo(timeChange, 0, 0.25),
+                  cc.scaleTo(timeChange, 0.2, 0.25),
+                  cc.callFunc(lastText.setOpacity(0))
+                )
+              );
+              isFlipping = true;
+            }, 1000);
+          }
+
+          lastbox = true;
+        }
+       }
+
+        break;
+    }
+  },
+  timeRemainFunc: function (dt) {
+    if (mins == 0 && secs == 1) {
+      secs = 0;
+      ScreenBackImage.setOpacity(200);
+      finalScreenScore.setOpacity(255);
+      finalScreenText.setOpacity(255);
+      finalScreenText.setString("Time's Up");
+      finalScreenScore.setString(
+        "Score : " + finalScore + "/" + whenFinalScreenDisplay
+      );
+
+      this.unschedule(this.timeRemainFunc);
+      replayBtn.setEnabled(true);
+      replayBtn.setOpacity(255);
+    } else {
+      secs--;
+      if (secs == 0) {
+        mins--;
+        secs = 59;
+      }
+    }
+    timeLable.setString(mins + ":" + secs);
+  },
+  replayEvent: function (sender, type) {
+    switch (type) {
+      case ccui.Widget.TOUCH_BEGAN:
+        cc.director.runScene(new flipCardLayerScene());
+        break;
+    }
+  },
+});
