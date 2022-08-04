@@ -1,0 +1,518 @@
+var HelloWorldLayer = cc.Layer.extend({
+  sprite: null,
+  ctor: function () {
+    this._super();
+    var noOfCorrectAnswer = 0;
+     // ----------->JSON File
+    var jsonData = [
+      {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Technopreneur",
+        option3: "Intrapreneur",
+        option4: "Social Entrepreneur",
+        userAnswer: "Ecopreneur",
+        answer: "Ecopreneur",
+        index: 1,
+      },
+      {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Intrapreneur",
+        answer: "Lorem",
+        index: 2,
+      },
+       {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Ipsum",
+        answer: "Ipsum",
+        index: 3,
+      },
+         {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Ecopreneur",
+        answer: "Ecopreneur",
+        index: 4,
+      },
+               {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Intrapreneur",
+        answer: "Ecopreneur",
+        index: 5,
+      },
+      {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Lorem",
+        answer: "Lorem",
+        index: 6,
+      },
+       {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Lorem",
+        answer: "Ecopreneur",
+        index: 7,
+      },
+        {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Ecopreneur",
+        answer: "Ecopreneur",
+        index: 8,
+      },
+        {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Lorem",
+        answer: "Lorem",
+        index: 9,
+      },
+         {
+        question:
+          "A corporate manager who starts a new initiative for their company which entails setting up a new distinctbusiness unit and board of directors can be regraded as ?",
+        option1: "Ecopreneur",
+        option2: "Ipsum",
+        option3: "Lorem",
+        option4: "Intrapreneur",
+        userAnswer: "Ipsum",
+        answer: "Ipsum",
+        index: 10,
+      },
+            
+            
+        
+
+     
+    ];
+
+
+
+
+
+    // ----> JSON Finished
+    var size = cc.winSize;
+    var mainbg = new cc.Sprite(res.mainBG);
+    mainbg.setScale(5.7, 3);
+    mainbg.attr({
+      x: size.width / 2,
+      y: size.height / 2,
+    });
+    this.addChild(mainbg, 1);
+
+    var quizTextbg = new cc.Sprite(res.quizTextBG);
+    quizTextbg.setScale(0.9, 0.9);
+    quizTextbg.attr({
+      x: size.width / 2,
+      y: size.height / 2 + 395,
+    });
+    this.addChild(quizTextbg, 3);
+    var quizTextLable = new cc.LabelTTF("QUIZ", "tcmfont", 45);
+    quizTextLable.setColor(cc.color(0, 227, 247));
+    quizTextLable.attr({
+      x: quizTextbg.width / 2,
+      y: quizTextbg.height / 2 - 5,
+    });
+    quizTextbg.addChild(quizTextLable);
+    var closeButton = new ccui.Button(res.closeBtn);
+    closeButton.attr({
+      x: size.width - 80,
+      y:size.height -80
+    });
+    this.addChild(closeButton,1);
+    // --> Result Section
+    var resultBox = new cc.Sprite(res.quizSelectBoxBG);
+    resultBox.setScale(2.8, 2.5);
+    resultBox.attr({
+      x: size.width / 2,
+      y: size.height / 2 - 335,
+    });
+    this.addChild(resultBox, 4);
+
+
+    var lineLeft = new cc.Sprite(res.quinLineBG);
+    lineLeft.setScale(0.4, 0.09);
+    lineLeft.attr({
+      x: resultBox.width / 2 - 50,
+      y: resultBox.height / 2,
+    });
+    resultBox.addChild(lineLeft);
+    var lineRight = new cc.Sprite(res.quinLineBG);
+    lineRight.setScale(0.4, 0.09);
+    lineRight.attr({
+      x: resultBox.width / 2 + 50,
+      y: resultBox.height / 2,
+    });
+    resultBox.addChild(lineRight);
+    var resultBoxTitleBG = new cc.Sprite(res.quizTitleTextBG);
+    resultBoxTitleBG.setScale(1, 1.1);
+    resultBoxTitleBG.attr({
+      x: size.width / 2,
+      y: size.height / 2 - 260,
+    });
+    this.addChild(resultBoxTitleBG, 5);
+    var resultBoxTitleText = new cc.LabelTTF("RESULT", "tcbfont", 25);
+    resultBoxTitleText.setColor(cc.color(0, 227, 247));
+    resultBoxTitleText.attr({
+      x: resultBoxTitleBG.width / 2,
+      y: resultBoxTitleBG.height / 2 ,
+    });
+    resultBoxTitleBG.addChild(resultBoxTitleText);
+  // -> Left DIV
+    var correctAnsewerText = new cc.LabelTTF("CORRECT", "tcbfont", 23);
+    correctAnsewerText.setColor(cc.color(255, 255, 255));
+    correctAnsewerText.attr({
+      x: size.width / 2 - 295,
+      y: size.height / 2 - 337,
+    });
+    this.addChild(correctAnsewerText, 6);
+    var correctAnsewerTextResult = new cc.LabelTTF("7", "tcbfont", 23);
+    correctAnsewerTextResult.setColor(cc.color(0, 255, 0));
+    correctAnsewerTextResult.attr({
+      x: size.width / 2 - 215,
+      y: size.height / 2 - 337,
+    });
+    this.addChild(correctAnsewerTextResult, 6);
+    // -> Middle DIV
+
+    var IncorrectAnsewerText = new cc.LabelTTF("INCORRECT", "tcbfont", 23);
+    IncorrectAnsewerText.setColor(cc.color(255, 255, 255));
+    IncorrectAnsewerText.attr({
+      x: size.width / 2 - 20,
+      y: size.height / 2 - 337,
+    });
+    this.addChild(IncorrectAnsewerText, 6);
+
+    var IncorrectAnsewerTextResult = new cc.LabelTTF("3", "tcbfont", 23);
+    IncorrectAnsewerTextResult.setColor(cc.color(255, 0, 127));
+    IncorrectAnsewerTextResult.attr({
+      x: size.width / 2 + 70,
+      y: size.height / 2 - 337,
+    });
+    this.addChild(IncorrectAnsewerTextResult, 6);
+
+    //->Right DIV
+    var TotalScoreText = new cc.LabelTTF("TOTAL SCORE", "tcbfont", 23);
+    TotalScoreText.setColor(cc.color(255, 255, 255));
+    TotalScoreText.attr({
+      x: size.width / 2 + 230,
+      y: size.height / 2 - 337,
+    });
+    this.addChild(TotalScoreText, 6);
+    var TotalScoreTextBG = new cc.Sprite(res.blueCircleBG);
+    TotalScoreTextBG.setScale(1.2, 1.2);
+    TotalScoreTextBG.attr({
+      x: size.width / 2 + 355,
+      y: size.height / 2 - 335,
+    });
+    this.addChild(TotalScoreTextBG, 5);
+
+    var TotalScoreTextResult = new cc.LabelTTF("7", "tcbfont", 23);
+    TotalScoreTextResult.setColor(cc.color(255, 255, 255));
+    TotalScoreTextResult.attr({
+      x: size.width / 2 + 355,
+      y: size.height / 2 - 337,
+    });
+    this.addChild(TotalScoreTextResult, 6);
+
+    // -> Page Setup Dot
+    var pageFillBGCircle = new cc.Sprite(res.pageFillBG);
+    pageFillBGCircle.attr({
+      x: size.width / 2 + 25,
+      y: size.height / 2 - 450,
+    });
+    this.addChild(pageFillBGCircle, 10);
+
+    var pageViewBGCircle = new cc.Sprite(res.pageViewBG);
+    pageViewBGCircle.setScale(1.1, 1.1);
+    pageViewBGCircle.attr({
+      x: size.width / 2 - 25,
+      y: size.height / 2 - 450,
+    });
+    this.addChild(pageViewBGCircle, 10);
+    var pageViewBGCircle = new cc.Sprite(res.pageViewBG);
+    pageViewBGCircle.setScale(1.1, 1.1);
+    pageViewBGCircle.attr({
+      x: size.width / 2 + 25,
+      y: size.height / 2 - 450,
+    });
+    this.addChild(pageViewBGCircle, 9);
+
+    var scrollViewBG = new cc.Sprite(res.quizBG);
+    scrollViewBG.setScale(5.7,2.4);
+    scrollViewBG.attr({
+      x: size.width / 2,
+      y: size.height / 2+90
+    });
+    this.addChild(scrollViewBG,1);
+
+    var pos =  jsonData.length * 130;
+    var scrollView = new ccui.ScrollView();
+    scrollView.setDirection(ccui.ScrollView.DIR_VERTICAL);
+    scrollView.setTouchEnabled(true);
+    scrollView.setBounceEnabled(true);
+    scrollView.setBackGroundColor(cc.color(255, 255, 255));
+    // scrollView.setBackGroundImage(res.quizBG);
+    // scrollView.setBackGroundImageScale9Enabled(true);
+    scrollView.setContentSize(cc.size(1450, 550));
+    scrollView.setInnerContainerSize(cc.size(1450, pos));
+    scrollView.setAnchorPoint(0.5, 1);
+    scrollView.attr({
+      x: size.width / 2,
+      y: size.height / 2 + 360  
+    });
+    this.addChild(scrollView, 1);
+    var scrollLimit = pos;
+    for (i = 0; i < jsonData.length; i++) {
+      scrollLimit -= 15;
+      var obj_json = jsonData[i];
+      var obj_index = obj_json.index;
+      var obj_question = obj_json.question;
+      var obj_option1 = obj_json.option1;
+      var obj_option2 = obj_json.option2;
+      var obj_option3 = obj_json.option3;
+      var obj_option4 = obj_json.option4;
+      var obj_answer = obj_json.answer;
+      var obj_userAnser = obj_json.userAnswer;
+
+      var indexNumber = new cc.LabelTTF("Q"+obj_index + ". ", "tcbfont", 22);
+      indexNumber.setAnchorPoint(0, 0.5);
+      indexNumber.setColor(cc.color(0, 25, 51));
+      indexNumber.attr({
+        x: 55,
+        y: scrollLimit - 3,
+      });
+      scrollView.addChild(indexNumber);
+      var QuestionView = new cc.LabelTTF(obj_question, "tcbfont", 22);
+      QuestionView._setBoundingWidth(1280);
+      QuestionView.setColor(cc.color(0, 25, 51));
+      QuestionView.setAnchorPoint(0, 0.8);
+      QuestionView.attr({
+        x: 100,
+        y: scrollLimit,
+      });
+      scrollLimit -= 80;
+      scrollView.addChild(QuestionView);
+      //Option Manager
+      var option1BGvar = res.nonQuizSelectBoxBG;
+      var option2BGvar = res.nonQuizSelectBoxBG;
+      var option3BGvar = res.nonQuizSelectBoxBG;
+      var option4BGvar = res.nonQuizSelectBoxBG;
+      var optionATextColor = cc.color(0, 25, 51);
+      var optionBTextColor = cc.color(0, 25, 51);
+      var optionCTextColor = cc.color(0, 25, 51);
+      var optionDTextColor = cc.color(0, 25, 51);
+      var optionAresultColor = cc.color(0, 25, 51);
+      var optionBresultColor = cc.color(0, 25, 51);
+      var optionCresultColor = cc.color(0, 25, 51);
+      var optionDresultColor = cc.color(0, 25, 51);
+
+      if (obj_option1 == obj_answer) {
+        option1BGvar = res.quizSelectBoxBG;
+        optionATextColor = cc.color(0, 227, 247);
+        if (obj_answer == obj_userAnser) {
+          optionAresultColor = cc.color(0, 255, 0);
+          noOfCorrectAnswer++;
+        }
+        else {
+          optionAresultColor = cc.color(255, 0, 127);
+        }
+      } else if (obj_option2 == obj_answer) {
+        option2BGvar = res.quizSelectBoxBG;
+        optionBTextColor = cc.color(0, 227, 247);
+        if (obj_answer == obj_userAnser) {
+          optionBresultColor = cc.color(0, 255, 0);
+          noOfCorrectAnswer++;
+        } else {
+          optionBresultColor = cc.color(255, 0, 127);
+        }
+      } else if (obj_option3 == obj_answer) {
+        option3BGvar = res.quizSelectBoxBG;
+        optionCTextColor = cc.color(0, 227, 247);
+        if (obj_answer == obj_userAnser) {
+          optionCresultColor = cc.color(0, 255, 0);
+          noOfCorrectAnswer++;
+        } else {
+          optionCresultColor = cc.color(255, 0, 127);
+        }
+      } else if (obj_option4 == obj_answer) {
+        option4BGvar = res.quizSelectBoxBG;
+        optionDTextColor = cc.color(0, 227, 247);
+        if (obj_answer == obj_userAnser) {
+          optionDresultColor = cc.color(0, 255, 0);
+          noOfCorrectAnswer++;
+        }
+        optionDresultColor = cc.color(255, 0, 127);
+      }
+
+
+      if (obj_option1 ==  obj_userAnser) {
+        optionAresultColor = cc.color(0, 255, 0);
+      }
+      else if (obj_option2 ==  obj_userAnser) {
+      optionBresultColor = cc.color(0, 255, 0);
+      }
+      else if (obj_option3 == obj_userAnser) {
+        optionCresultColor = cc.color(0, 255, 0);
+      }
+      else if (obj_option4 == obj_userAnser) {
+       optionDresultColor = cc.color(0, 255, 0);
+      }
+
+
+
+      // -> Option 1 Manager
+      var option1BG = new cc.Sprite(option1BGvar);
+      option1BG.attr({
+        x: scrollView.width / 2 - 480,
+        y: scrollLimit,
+      });
+      scrollView.addChild(option1BG);
+
+      var option1TResult = new cc.LabelTTF(obj_option1, "tcbfont", 23);
+      option1TResult.setAnchorPoint(0, 0.5);
+      option1TResult.setColor(optionAresultColor);
+      option1TResult.attr({
+        x: option1BG.width / 2 - 60,
+        y: option1BG.height / 2 - 2,
+      });
+      option1BG.addChild(option1TResult, 7);
+
+      var optionAText = new cc.LabelTTF("A.", "tcbfont", 23);
+      optionAText.setColor(optionATextColor);
+      optionAText.attr({
+        x: option1BG.width / 2 - 80,
+        y: option1BG.height / 2 - 2,
+      });
+      option1BG.addChild(optionAText);
+
+      // -> Option 2 Manager
+      var option2BG = new cc.Sprite(option2BGvar);
+      option2BG.attr({
+        x: scrollView.width / 2 - 160,
+        y: scrollLimit,
+      });
+      scrollView.addChild(option2BG);
+      var option2Result = new cc.LabelTTF(obj_option2, "tcbfont", 23);
+      
+      option2Result.setColor(optionBresultColor);
+       option2Result.setAnchorPoint(0, 0.5);
+      option2Result.attr({
+        x: option2BG.width / 2 -60,
+        y: option2BG.height / 2 - 2,
+      });
+      option2BG.addChild(option2Result, 7);
+
+      var optionBText = new cc.LabelTTF("B.", "tcbfont", 23);
+      optionBText.setColor(optionBTextColor);
+      optionBText.attr({
+        x: option1BG.width / 2 - 80,
+        y: option1BG.height / 2 - 2,
+      });
+      option2BG.addChild(optionBText);
+      // -> Option 3 Manager
+      var option3BG = new cc.Sprite(option3BGvar);
+      option3BG.attr({
+        x: scrollView.width / 2 + 160,
+        y: scrollLimit,
+      });
+      scrollView.addChild(option3BG);
+      var option3Result = new cc.LabelTTF(obj_option3, "tcbfont", 23);
+       option3Result.setAnchorPoint(0, 0.5);
+      option3Result.setColor(optionCresultColor);
+      option3Result.attr({
+        x: option3BG.width / 2 -60,
+        y: option3BG.height / 2 - 2,
+      });
+      option3BG.addChild(option3Result, 7);
+
+      var optionCText = new cc.LabelTTF("C.", "tcbfont", 23);
+      optionCText.setColor(optionCTextColor);
+      optionCText.attr({
+        x: option1BG.width / 2 - 80,
+        y: option1BG.height / 2 - 2,
+      });
+      option3BG.addChild(optionCText);
+
+      // -> Option 4 Manager
+      var option4BG = new cc.Sprite(option4BGvar);
+      option4BG.attr({
+        x: scrollView.width / 2 + 480,
+        y: scrollLimit,
+      });
+      scrollView.addChild(option4BG);
+      var option4Result = new cc.LabelTTF(obj_option4, "tcbfont", 23);
+      option4Result.setAnchorPoint(0, 0.5);
+      option4Result.setColor(optionDresultColor);
+      option4Result.attr({
+        x: option4BG.width / 2-80,
+        y: option4BG.height / 2 - 2,
+      });
+      option4BG.addChild(option4Result, 7);
+
+      var optionDText = new cc.LabelTTF("D.", "tcbfont", 23);
+      optionDText.setColor(optionDTextColor);
+      optionDText.attr({
+        x: option1BG.width / 2 - 100,
+        y: option1BG.height / 2 - 2,
+      });
+      option4BG.addChild(optionDText);
+
+      // pos += 80;
+      scrollLimit -= 35;
+    }
+    
+    // ->Result Value Printing
+    correctAnsewerTextResult.setString(noOfCorrectAnswer);  // --->Correct Answer Result Left Div
+    IncorrectAnsewerTextResult.setString(jsonData.length-noOfCorrectAnswer); // --->Incorrect Answer Result Middle Div
+    TotalScoreTextResult.setString(noOfCorrectAnswer);
+    
+    // --->Total Result Answer Result Right Div
+    return true;
+   
+  },
+});
+
+var HelloWorldScene = cc.Scene.extend({
+  onEnter: function () {
+    this._super();
+    var layer = new HelloWorldLayer();
+    this.addChild(layer);
+  },
+});
